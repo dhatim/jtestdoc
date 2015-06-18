@@ -24,6 +24,7 @@ import com.github.javaparser.ast.type.VoidType;
 public class TestTagVisitorTest 
 {
 	MethodSet m = new MethodSet(true);
+	
 	/**
 	 * This method tests that the visitor processes and only processes the method with the annotation @Test
 	 */
@@ -32,7 +33,7 @@ public class TestTagVisitorTest
 	{
 		// We have a methodset
 		 
-		//Step: Mock process
+		//Step: Mock the process method so it isn't actually called
 		final AtomicBoolean processExecuted = new AtomicBoolean(false);
 		TestTagVisitor visitor = new TestTagVisitor(){
 			public void process(MethodDeclaration methodDeclaration,Optional<String> markerDescription){processExecuted.set(true);}
@@ -45,7 +46,7 @@ public class TestTagVisitorTest
 		
 		//Step: Check that a method with the annotation @Test is processed
 		visitor.visit(new MarkerAnnotationExpr(new NameExpr("Test")),m);
-		//The method should be proccessed
+		//The method should be processed
 		Assert.assertTrue(processExecuted.get());
 	}
 	
