@@ -1,7 +1,6 @@
 package org.dhatim.jtestdoc.tasks;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import org.apache.tools.ant.BuildException;
