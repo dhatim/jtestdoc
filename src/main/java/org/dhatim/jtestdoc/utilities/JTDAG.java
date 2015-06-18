@@ -35,7 +35,7 @@ public class JTDAG // Java Test Documentation Automatically Generated
 		this.destination = destination;
 
 		try(Scanner templateScanner = new Scanner(JTDAG.class.getClassLoader().getResourceAsStream("template.html"),"UTF-8");
-				Scanner parserScanner = new Scanner(JTDAG.class.getClassLoader().getResourceAsStream("jsparser.js"),"UTF-8");
+				Scanner parserScanner = new Scanner(JTDAG.class.getClassLoader().getResourceAsStream("jsparser.js.template"),"UTF-8");
 				Scanner markedScanner = new Scanner(JTDAG.class.getClassLoader().getResourceAsStream("marked.js"),"UTF-8");
 						){
 			TEMPLATE = templateScanner.next();
