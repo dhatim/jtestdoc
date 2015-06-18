@@ -13,7 +13,7 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 public class TestMethodVisitor extends VoidVisitorAdapter<MethodSet>
 {
-	MethodSet m;
+	private MethodSet m;
 	private void recursiveSearch(Node n)
 	{
 		for(MethodDeclaration mm:m.getAllmymethods())

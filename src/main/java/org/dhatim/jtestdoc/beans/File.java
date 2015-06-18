@@ -7,8 +7,8 @@ import org.dhatim.jtestdoc.beans.Method;
 
 public class File 
 {
-	String name;
-	ArrayList<Method> methods;
+	private String name;
+	private ArrayList<Method> methods;
 	
 	public File(){}
 	public File(String name, ArrayList<Method> methods) {

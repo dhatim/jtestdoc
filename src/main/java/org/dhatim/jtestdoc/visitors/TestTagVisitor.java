@@ -23,7 +23,7 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 public class TestTagVisitor extends VoidVisitorAdapter<MethodSet>
 {
-	MethodSet m = new MethodSet(true);
+	private MethodSet m = new MethodSet(true);
 	
 	@Override
 	public void visit(NormalAnnotationExpr marker,MethodSet m) 

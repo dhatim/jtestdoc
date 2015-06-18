@@ -9,7 +9,8 @@ import org.dhatim.jtestdoc.beans.XStep;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.comments.Comment;
 
-public class MethodSet {
+public class MethodSet
+{
 	Method pmethod = new Method(); 
 	ArrayList<XStep> steps = new ArrayList<XStep>();
 	ArrayList<Method> methods = new ArrayList<Method>();
@@ -17,6 +18,7 @@ public class MethodSet {
 	ArrayList<Comment> assertComments = new ArrayList<Comment>();
 	List<Comment> allComments = new ArrayList<Comment>();
 	ErrorManager errorManager;
+	
 	public MethodSet(boolean blocking) {
 		errorManager = new ErrorManager(blocking);
 	}

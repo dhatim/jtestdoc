@@ -25,9 +25,9 @@ public class JTDAG // Java Test Documentation Automatically Generated
 	
 	
 	//Template files
-	public String TEMPLATE="";
-	public String JSPARSER="";
-	public String MK="";
+	private String TEMPLATE="";
+	private String JSPARSER="";
+	private String MK="";
 
 	public JTDAG(ArrayList<File> files,String destination)
 	{
