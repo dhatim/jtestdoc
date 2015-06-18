@@ -1,6 +1,6 @@
 package org.dhatim.jtestdoc.beans;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.dhatim.jtestdoc.beans.XStep;
 
@@ -8,7 +8,7 @@ public class Method
 {
 	public String name;
 	public String initialState;
-	public ArrayList<XStep> steps;
+	public List<XStep> steps;
 	public String description;
 	
 	public String getName() {
@@ -23,11 +23,11 @@ public class Method
 	public void setInitialState(String initialState) {
 		this.initialState = initialState;
 	}
-	public ArrayList<XStep> getSteps() {
+	public List<XStep> getSteps() {
 		return steps;
 	}
-	public void setSteps(ArrayList<XStep> steps) {
-		this.steps = steps;
+	public void setSteps(List<XStep> list) {
+		this.steps = list;
 	}
 	public String getDescription() {
 		return description;

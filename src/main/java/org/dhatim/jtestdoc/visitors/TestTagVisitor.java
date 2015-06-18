@@ -190,18 +190,18 @@ public class TestTagVisitor extends VoidVisitorAdapter<MethodSet>
 
 	}
 
-	public ArrayList<Method> getMethods() {
+	public List<Method> getMethods() {
 		return methodSet.getMethods();
 	}
 
 	
 
-	public ArrayList<MethodDeclaration> getAllmymethods() {
+	public List<MethodDeclaration> getAllmymethods() {
 		return methodSet.getAllmymethods();
 	}
 
 
-	public void setAllmymethods(ArrayList<MethodDeclaration> allmymethods) {
+	public void setAllmymethods(List<MethodDeclaration> allmymethods) {
 		methodSet.setAllmymethods(allmymethods);
 	}
 	
