@@ -2,8 +2,42 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>JTestDoc</groupId>
   <artifactId>JTestDoc</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
+  
+  <name>JTestDoc</name>
+  <description>A maven plugin to generate test documentation</description>
+  <url>https://github.com/dhatim/jtestdoc</url>
+  
+   <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  
+
+	<scm>
+  <connection>scm:git:git@github.com:dhatim/jtestdoc.git</connection>
+  <developerConnection>scm:git:git@github.com:dhatim/jtestdoc.git</developerConnection>
+  <url>git@github.com:dhatim/jtestdoc</url>
+	</scm>
+  
+   <developers>
+    <developer>
+      <name>Nathanaël Langlois</name>
+      <email>nathanael.langlois@gmail.com</email>
+      <organization>Dhatim</organization>
+      <organizationUrl>http://dhatim.com/</organizationUrl>
+    </developer>
+     <developer>
+      <name>Maxime Suret</name>
+      <email>msuret@dhatim.net</email>
+      <organization>Dhatim</organization>
+      <organizationUrl>http://dhatim.com/</organizationUrl>
+    </developer>
+  </developers>
   
   <dependencies>
   <dependency>
