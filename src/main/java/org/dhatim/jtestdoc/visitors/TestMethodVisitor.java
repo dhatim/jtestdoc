@@ -5,7 +5,6 @@ import org.dhatim.jtestdoc.utilities.MethodSet;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
@@ -13,10 +12,10 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 public class TestMethodVisitor extends VoidVisitorAdapter<MethodSet>
 {
-	private MethodSet m;
+	private MethodSet methodSet;
 	private void recursiveSearch(Node n)
 	{
-		for(MethodDeclaration mm:m.getAllmymethods())
+		for(MethodDeclaration mm:methodSet.getAllmymethods())
 		{
 			if(((MethodCallExpr)((ExpressionStmt)n).getExpression()).getName().equals(mm.getName()))
 			{
@@ -29,7 +28,7 @@ public class TestMethodVisitor extends VoidVisitorAdapter<MethodSet>
 	@Override
 	public void visit(ExpressionStmt n,MethodSet m)
 	{
-		this.m = m;
+		this.methodSet = m;
 		if(n.getExpression() instanceof MethodCallExpr 
 			 )
 		{
@@ -64,12 +63,5 @@ public class TestMethodVisitor extends VoidVisitorAdapter<MethodSet>
 			else recursiveSearch(n);
 		}
 		
-	}
-	
-	
-	@Override
-	public void visit(BlockComment n, MethodSet a)
-	{
-		System.out.println(n.getComment().getContent()+"\n\n");
 	}
 }
