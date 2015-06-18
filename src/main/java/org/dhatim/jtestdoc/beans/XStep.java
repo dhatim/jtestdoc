@@ -1,16 +1,16 @@
 package org.dhatim.jtestdoc.beans;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class XStep {
 
     private String step;
-    private ArrayList<String> expectedResult;
+    private List<String> expectedResult;
 
     public XStep() {
     }
 
-    public XStep(String step, ArrayList<String> expectedResult) {
+    public XStep(String step, List<String> expectedResult) {
         super();
         this.step = step;
         this.expectedResult = expectedResult;
@@ -24,11 +24,11 @@ public class XStep {
         this.step = step;
     }
 
-    public ArrayList<String> getExpectedResult() {
+    public List<String> getExpectedResult() {
         return expectedResult;
     }
 
-    public void setExpectedResult(ArrayList<String> expectedResult) {
+    public void setExpectedResult(List<String> expectedResult) {
         this.expectedResult = expectedResult;
     }
 
