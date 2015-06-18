@@ -2,14 +2,17 @@ package org.dhatim.jtestdoc.utilities;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import org.apache.tools.ant.BuildException;
 import org.dhatim.jtestdoc.beans.File;
 
-import com.google.common.io.CharStreams;
 import com.google.gson.Gson;
 
 public class JTDAG // Java Test Documentation Automatically Generated
@@ -31,17 +34,16 @@ public class JTDAG // Java Test Documentation Automatically Generated
 		this.files = files;
 		this.destination = destination;
 
-		try {
-			TEMPLATE = CharStreams.toString(new InputStreamReader(JTDAG.class.getClassLoader().getResourceAsStream("template.html"),"UTF-8"));
-			JSPARSER = CharStreams.toString(new InputStreamReader(JTDAG.class.getClassLoader().getResourceAsStream("jsparser.js"),"UTF-8"));
-			MK = CharStreams.toString(new InputStreamReader(JTDAG.class.getClassLoader().getResourceAsStream("marked.js"),"UTF-8"));
-
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-
-			e.printStackTrace();
+		try(Scanner templateScanner = new Scanner(JTDAG.class.getClassLoader().getResourceAsStream("template.html"),"UTF-8");
+				Scanner parserScanner = new Scanner(JTDAG.class.getClassLoader().getResourceAsStream("jsparser.js"),"UTF-8");
+				Scanner markedScanner = new Scanner(JTDAG.class.getClassLoader().getResourceAsStream("marked.js"),"UTF-8");
+						){
+			TEMPLATE = templateScanner.next();
+			JSPARSER = parserScanner.next();
+			MK = markedScanner.next();
 		}
+		
+		
 	}
 	
 	public void export() throws BuildException
