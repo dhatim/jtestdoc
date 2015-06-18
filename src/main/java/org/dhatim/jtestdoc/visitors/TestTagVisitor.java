@@ -23,12 +23,12 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 public class TestTagVisitor extends VoidVisitorAdapter<MethodSet>
 {
-	MethodSet m = new MethodSet(true);
+	private MethodSet methodSet = new MethodSet(true);
 	
 	@Override
 	public void visit(NormalAnnotationExpr marker,MethodSet m) 
 	{
-		this.m = m;
+		this.methodSet = m;
 		if("Test".equals(marker.getName().getName())) //Checking for the annotation @Test on the methods
 		{
 			process(
@@ -44,7 +44,7 @@ public class TestTagVisitor extends VoidVisitorAdapter<MethodSet>
 	@Override
 	public void visit(MarkerAnnotationExpr marker,MethodSet m) 
 	{
-		this.m = m;
+		this.methodSet = m;
 		if("Test".equals(marker.getName().getName())) //Checking for the annotation @Test on the methods
 		{
 			process((MethodDeclaration)marker.getParentNode(), Optional.empty()); //Processing the one having it
@@ -58,20 +58,20 @@ public class TestTagVisitor extends VoidVisitorAdapter<MethodSet>
 			return;
 		}
 		
-		m.setPmethod(new Method()); //Initializing the processed method
+		methodSet.setPmethod(new Method()); //Initializing the processed method
 
 		if(markerDescription.isPresent()){
-			m.getPmethod().setDescription(markerDescription.get().replace("\"", "'"));	
+			methodSet.getPmethod().setDescription(markerDescription.get().replace("\"", "'"));	
 		} else if (methodDeclaration!=null && methodDeclaration.getComment() != null){
-			m.getPmethod().setDescription(methodDeclaration.getComment().getContent().replace("\"", "'").replace("*", ""));
+			methodSet.getPmethod().setDescription(methodDeclaration.getComment().getContent().replace("\"", "'").replace("*", ""));
 		} else {
-			m.getErrorManager().add(new BuildException("You do not have a test description"));
-			m.getPmethod().setDescription("None");
+			methodSet.getErrorManager().add(new BuildException("You do not have a test description"));
+			methodSet.getPmethod().setDescription("None");
 		}
 
 
-		m.setSteps(new ArrayList<XStep>());//Initializing an ArrayList for its steps
-		m.setAssertComments(new ArrayList<Comment>());
+		methodSet.setSteps(new ArrayList<XStep>());//Initializing an ArrayList for its steps
+		methodSet.setAssertComments(new ArrayList<Comment>());
 		BlockStmt content = methodDeclaration.getBody();//Getting the method's content
 		List<Comment> comments = content.getAllContainedComments();//Retrieving all comments from the content
 		
@@ -87,7 +87,7 @@ public class TestTagVisitor extends VoidVisitorAdapter<MethodSet>
 		if(comments.isEmpty()
 				||comments.get(0).getBeginLine()>content.getChildrenNodes().get(0).getBeginLine()) 
 			{
-				m.getErrorManager().add(new BuildException("The first line of the method must be a comment describing the initial state."));
+			methodSet.getErrorManager().add(new BuildException("The first line of the method must be a comment describing the initial state."));
 			}
 		
 		//Initializing the Initial state to an empty chain of characters
@@ -113,7 +113,7 @@ public class TestTagVisitor extends VoidVisitorAdapter<MethodSet>
 			if(c.getContent().startsWith("Expected result:"))
 			{
 				c.setContent(c.getContent().substring(16).replace("\"", "'"));
-					m.getAssertComments().add(c);
+				methodSet.getAssertComments().add(c);
 			}
 		}
 		//Sorting the comments by their line number
@@ -128,25 +128,25 @@ public class TestTagVisitor extends VoidVisitorAdapter<MethodSet>
 		if(initialstate.indexOf("Step:")!=-1)
 			initialstate = initialstate.substring(0, initialstate.indexOf("Step:"));
 		if(initialstate.replace(" ", "").isEmpty())
-			m.getErrorManager().add(new BuildException("You need to add an initial state "));
+			methodSet.getErrorManager().add(new BuildException("You need to add an initial state "));
 		
 		if(initialstate.indexOf("Initial state:")!=-1)
 			initialstate = initialstate.substring(initialstate.indexOf("Initial state:")+"Initial state:".length());
 		
 		//Finally adding that initial state to the method
-		m.getPmethod().setInitialState(initialstate.replace("\"", "'"));
+		methodSet.getPmethod().setInitialState(initialstate.replace("\"", "'"));
 		
 		//Putting all comments on an arraylist to solve the problem concerning assert() comments
-		m.setAllComments(methodDeclaration.getAllContainedComments());
+		methodSet.setAllComments(methodDeclaration.getAllContainedComments());
 
-		new TestMethodVisitor().visit(methodDeclaration,m);
+		new TestMethodVisitor().visit(methodDeclaration,methodSet);
 		//Checking the there are actual assert() calls
-		if(m.getAssertComments().isEmpty()) 
-			m.getErrorManager().add(new BuildException("Can't find any calls to an assert method in your "+methodDeclaration.getName()+" @Test method."));
+		if(methodSet.getAssertComments().isEmpty()) 
+			methodSet.getErrorManager().add(new BuildException("Can't find any calls to an assert method in your "+methodDeclaration.getName()+" @Test method."));
 		
 		if(stepsLines.size()<1)
 		{
-			m.getErrorManager().add(new BuildException("Cannot find steps"));
+			methodSet.getErrorManager().add(new BuildException("Cannot find steps"));
 		}
 		else
 		{	
@@ -156,7 +156,7 @@ public class TestTagVisitor extends VoidVisitorAdapter<MethodSet>
 				XStep step = new XStep();
 				ArrayList<String> expectedResult = new ArrayList<String>();
 				
-				Iterator<Comment> iter = m.getAssertComments().iterator();
+				Iterator<Comment> iter = methodSet.getAssertComments().iterator();
 	
 				while(iter.hasNext())
 				{
@@ -169,40 +169,40 @@ public class TestTagVisitor extends VoidVisitorAdapter<MethodSet>
 				}
 				step.setStep(stepsLines.get(i).get(1));
 				step.setExpectedResult(expectedResult);
-				m.getSteps().add(step); //Adding the XStep(Step + its expected results) to the list of steps
+				methodSet.getSteps().add(step); //Adding the XStep(Step + its expected results) to the list of steps
 			}
 			
 			//Need to put the comments on the last step 
 			XStep mstep = new XStep();
 			ArrayList<String> expectedResult = new ArrayList<String>();
-			for(Comment c: m.getAssertComments())
+			for(Comment c: methodSet.getAssertComments())
 				expectedResult.add(c.getContent().replace("\"", "'"));
 			mstep.setStep(stepsLines.get(stepsLines.size()-1).get(1));
 			mstep.setExpectedResult(expectedResult);
 	
-			m.getSteps().add(mstep);//Adding it
+			methodSet.getSteps().add(mstep);//Adding it
 		}
 				
 		//Adding the XSteps to the method, adding it's name retrieved from the methodDeclaration, and adding it to the list of methods.
-		m.getPmethod().setSteps(m.getSteps());
-		m.getPmethod().setName(methodDeclaration.getName());
-		m.getMethods().add(m.getPmethod());
+		methodSet.getPmethod().setSteps(methodSet.getSteps());
+		methodSet.getPmethod().setName(methodDeclaration.getName());
+		methodSet.getMethods().add(methodSet.getPmethod());
 
 	}
 
-	public ArrayList<Method> getMethods() {
-		return m.getMethods();
+	public List<Method> getMethods() {
+		return methodSet.getMethods();
 	}
 
 	
 
-	public ArrayList<MethodDeclaration> getAllmymethods() {
-		return m.getAllmymethods();
+	public List<MethodDeclaration> getAllmymethods() {
+		return methodSet.getAllmymethods();
 	}
 
 
-	public void setAllmymethods(ArrayList<MethodDeclaration> allmymethods) {
-		m.setAllmymethods(allmymethods);
+	public void setAllmymethods(List<MethodDeclaration> allmymethods) {
+		methodSet.setAllmymethods(allmymethods);
 	}
 	
 	

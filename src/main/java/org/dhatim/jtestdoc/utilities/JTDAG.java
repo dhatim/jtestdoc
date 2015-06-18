@@ -2,13 +2,8 @@ package org.dhatim.jtestdoc.utilities;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 import org.apache.tools.ant.BuildException;
 import org.dhatim.jtestdoc.beans.File;
@@ -25,9 +20,9 @@ public class JTDAG // Java Test Documentation Automatically Generated
 	
 	
 	//Template files
-	public String TEMPLATE="";
-	public String JSPARSER="";
-	public String MK="";
+	private String TEMPLATE="";
+	private String JSPARSER="";
+	private String MK="";
 
 	public JTDAG(ArrayList<File> files,String destination)
 	{

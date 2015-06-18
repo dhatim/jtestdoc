@@ -9,14 +9,16 @@ import org.dhatim.jtestdoc.beans.XStep;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.comments.Comment;
 
-public class MethodSet {
+public class MethodSet
+{
 	Method pmethod = new Method(); 
-	ArrayList<XStep> steps = new ArrayList<XStep>();
-	ArrayList<Method> methods = new ArrayList<Method>();
-	ArrayList<MethodDeclaration> allmymethods = new ArrayList<MethodDeclaration>();
-	ArrayList<Comment> assertComments = new ArrayList<Comment>();
+	List<XStep> steps = new ArrayList<XStep>();
+	List<Method> methods = new ArrayList<Method>();
+	List<MethodDeclaration> allmymethods = new ArrayList<MethodDeclaration>();
+	List<Comment> assertComments = new ArrayList<Comment>();
 	List<Comment> allComments = new ArrayList<Comment>();
 	ErrorManager errorManager;
+	
 	public MethodSet(boolean blocking) {
 		errorManager = new ErrorManager(blocking);
 	}
@@ -26,25 +28,25 @@ public class MethodSet {
 	public void setPmethod(Method pmethod) {
 		this.pmethod = pmethod;
 	}
-	public ArrayList<XStep> getSteps() {
+	public List<XStep> getSteps() {
 		return steps;
 	}
-	public void setSteps(ArrayList<XStep> steps) {
+	public void setSteps(List<XStep> steps) {
 		this.steps = steps;
 	}
-	public ArrayList<Method> getMethods() {
+	public List<Method> getMethods() {
 		return methods;
 	}
-	public void setMethods(ArrayList<Method> methods) {
+	public void setMethods(List<Method> methods) {
 		this.methods = methods;
 	}
-	public ArrayList<MethodDeclaration> getAllmymethods() {
+	public List<MethodDeclaration> getAllmymethods() {
 		return allmymethods;
 	}
-	public void setAllmymethods(ArrayList<MethodDeclaration> allmymethods) {
+	public void setAllmymethods(List<MethodDeclaration> allmymethods) {
 		this.allmymethods = allmymethods;
 	}
-	public ArrayList<Comment> getAssertComments() {
+	public List<Comment> getAssertComments() {
 		return assertComments;
 	}
 	public void setAssertComments(ArrayList<Comment> assertComments) {
