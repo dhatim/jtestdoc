@@ -22,44 +22,35 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 public class JDocProcess extends Task 
 {
-	ArrayList<File> files = new ArrayList<File>();
-	String destination;
+	ArrayList<File> files = new ArrayList<File>(); //This is the list with all the processed files
+	String destination; //This is the place where the generated documentation will be exported
 	public ArrayList<MethodDeclaration> allmymethods;
-	FileSet f = new FileSet();
-	boolean blocking;
+	FileSet f = new FileSet();//This is the fileset with the files to be processed
+	boolean blocking;//This defines if the task should throw errors(blocking the task at the first one) or simply generate warnings(and create a doc file even if there are warnings)
 	
-	public String getDestination() {
-		return destination;
-	}
-
-	public void setDestination(String destination) {
-		this.destination = destination;
-	}
 
 	public void execute() throws BuildException 
 	{
-		if(destination==null)
+		if(destination==null)//If the destination is null, set it to a default location documentation.html
 			this.destination = "documentation.html";
-		try{
+
 		 //Parsing files
-		for(Resource mfi:f)
+		for(Resource mfi:f)//Looping through the list of of files
 		{
 			MethodSet m = new MethodSet(blocking);
 			allmymethods = new ArrayList<MethodDeclaration>();
+			
 			File d=new File();
 			FileInputStream in=null;
-			 CompilationUnit cu = null;
-				try {
-					in = new FileInputStream(mfi.toString());
-				} catch (FileNotFoundException e1) {
-					e1.printStackTrace();
-				}
+			CompilationUnit cu = null;
 				
 			try {
+				in = new FileInputStream(mfi.toString());
 				cu = JavaParser.parse(in);
-			} catch (ParseException e) {
+			} catch (ParseException|FileNotFoundException e) {
 				e.printStackTrace();
 			}
+			
 			TestTagVisitor a = new TestTagVisitor();
 	        new MethodVisitor().visit(cu, this);
 	        a.setAllmymethods(allmymethods);
@@ -71,12 +62,9 @@ public class JDocProcess extends Task
 				files.add(d);
 		}
 
-		JTDAG doc = new JTDAG(files, destination);
-		doc.export();
-		}catch(Exception e)
-		{
-        	e.printStackTrace();
-		}
+		JTDAG doc = new JTDAG(files, destination); //Create a JTestDocumentation with the files
+		doc.export(); //Export it
+	
 	}
 	
 	public void addFileSet(FileSet f)
@@ -86,6 +74,13 @@ public class JDocProcess extends Task
 	public void setBlocking(String s)
 	{
 		blocking = Boolean.parseBoolean(s);
+	}
+	public String getDestination() {
+		return destination;
+	}
+
+	public void setDestination(String destination) {
+		this.destination = destination;
 	}
 	
 	private static class MethodVisitor extends VoidVisitorAdapter<Object> {
