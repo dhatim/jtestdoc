@@ -1,5 +1,5 @@
 # JTestDoc
-JTestDoc is an ant task that checks your test documentation and generates error or warning depending on how you set it.
+JTestDoc is an ant task that checks your test documentation and generates errors or warnings depending on how you configure it.
 
 # Set Up
 
@@ -13,7 +13,7 @@ To add JTestDoc to your project, you can add the jar to your build path or if yo
 </dependency>
 ```
 
-Now add this to your ant build task. Note that this will open all subfolders.
+Now add the following to your ant build task. Note that this process all subfolders.
 
 ```xml
 <target name="main">
@@ -26,11 +26,11 @@ Now add this to your ant build task. Note that this will open all subfolders.
 ```
 
 
-Changing to blocking value to true will result in throwing BuildException instead of Warnings while building your app, and of destination will change the destination of the documentation to be generated.
+Changing 'blocking' value to true will result in throwing BuildException instead of Warnings while building your app, and of destination will change the location of the documentation to be generated.
 
 # Required documentation
 
-Each test must have at least the annotation @Test, with the parameter description if you use testng. If you don’t, your test description will be the content of the method’s javadoc.
+Each test must have at least the annotation @Test, with the description parameter if you use testng. If you don’t, your test's description will be the content of the method’s javadoc.
 
 Describe the initial state in comments before writing any instructions in your methods. For both the test’s description and the initial state, you can use the markdown syntax to shape your html.
 
