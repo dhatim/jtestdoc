@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dhatim.jtestdoc.beans.Method;
-import org.dhatim.jtestdoc.beans.XStep;
 
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.comments.Comment;
 
+/**
+ * The MethodSet contains the variables that are necessary for a method to be processed
+ * @author Nathanaël Langlois
+ * @version 1.0
+ */
 public class MethodSet {
 
-    private List<XStep> steps = new ArrayList<>();
     private List<Method> testMethods = new ArrayList<>();
     private List<MethodDeclaration> allMethods = new ArrayList<>();
     private List<Comment> assertComments = new ArrayList<>();
@@ -22,13 +25,7 @@ public class MethodSet {
         errorManager = new ErrorManager(blocking);
     }
 
-    public List<XStep> getSteps() {
-        return steps;
-    }
-
-    public void setSteps(List<XStep> steps) {
-        this.steps = steps;
-    }
+  
 
     public List<Method> getTestMethods() {
         return testMethods;

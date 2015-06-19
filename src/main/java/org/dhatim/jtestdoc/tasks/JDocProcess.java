@@ -20,6 +20,11 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * JDocProcess is an Ant task that processes files to get their documentation and put that documentation into a file.
+ * @author Nathanaël Langlois
+ * @version 1.0
+ */
 public class JDocProcess extends Task {
 
     private ArrayList<File> files = new ArrayList<>(); //This is the list with all the processed files

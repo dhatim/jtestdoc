@@ -21,6 +21,11 @@ import com.github.javaparser.ast.stmt.BreakStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.type.VoidType;
 
+/**
+ * The TestTagVisitorTest is a small unit test for the TestTagVisitor
+ * @author Nathanaël Langlois
+ * @version 1.0
+ */
 public class TestTagVisitorTest 
 {
 	MethodSet m = new MethodSet(true);

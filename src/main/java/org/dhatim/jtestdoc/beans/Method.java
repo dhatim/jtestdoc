@@ -2,6 +2,11 @@ package org.dhatim.jtestdoc.beans;
 
 import java.util.List;
 
+/**
+ * The Method class is the model for the processed methods
+ * @author Nathanaël Langlois
+ * @version 1.0
+ */
 public class Method {
 
     private String name;

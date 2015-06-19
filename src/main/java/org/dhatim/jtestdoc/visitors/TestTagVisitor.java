@@ -20,6 +20,11 @@ import com.github.javaparser.ast.expr.StringLiteralExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
+/**
+ * The TestTagVisitor checks for test @Test annotation and processes the methods that have it
+ * @author Nathanaël Langlois
+ * @version 1.0
+ */
 public class TestTagVisitor extends VoidVisitorAdapter<MethodSet> {
 
 	private MethodSet methodSet = new MethodSet(true);

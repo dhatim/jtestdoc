@@ -8,6 +8,11 @@ import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
+/**
+ * The TestMethodVisitor is in charge of finding a method's expected results
+ * @author Nathanaël Langlois
+ * @version 1.0
+ */
 public class TestMethodVisitor extends VoidVisitorAdapter<MethodSet> {
 
     private MethodSet methodSet;
