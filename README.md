@@ -8,7 +8,7 @@ To add JTestDoc to your project, you can add the jar to your build path or if yo
 <dependency>
   <groupId>JTestDoc</groupId>
   <artifactId>JTestDoc</artifactId>
-  <version>0.2</version>
+  <version>1.0</version>
   <classifier>jar-with-dependencies</classifier>
 </dependency>
 ```
@@ -22,7 +22,7 @@ Now add this to your ant build task. Note that this will open all subfolders.
 	</checkdoc>
 </target>
 	
-<taskdef name="checkdoc" classname="org.dhatim.jtestdoc.tasks.JDocProcess" classpath="yourpath\JTestDoc-0.0.1-SNAPSHOT-jar-with-dependencies.jar"/>
+<taskdef name="checkdoc" classname="org.dhatim.jtestdoc.tasks.JDocProcess" classpath="yourpath\JTestDoc-1.0-jar-with-dependencies.jar"/>
 ```
 
 
