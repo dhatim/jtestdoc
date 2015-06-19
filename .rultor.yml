@@ -1,7 +1,7 @@
 decrypt:
-  settings.xml: "JTestDoc/settings.xml.asc"
-  pubring.gpg: "JTestDoc/pubring.gpg.asc"
-  secring.gpg: "JTestDoc/secring.gpg.asc"
+  settings.xml: "repo/settings.xml.asc"
+  pubring.gpg: "repo/pubring.gpg.asc"
+  secring.gpg: "repo/secring.gpg.asc"
 release:
   script: |
     mvn versions:set "-DnewVersion=${tag}"
