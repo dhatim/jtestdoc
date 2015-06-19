@@ -3,24 +3,27 @@ JTestDoc is an ant task that checks your test documentation and generates error 
 
 # Set Up
 
-To add JTestDoc to your project, add the jar to your path and the following to your ant build task. Note that this will open all subfolders.
+To add JTestDoc to your project, you can add the jar to your build path or if you are using maven you can just add the dependency :
+```xml
+<dependency>
+  <groupId>JTestDoc</groupId>
+  <artifactId>JTestDoc</artifactId>
+  <version>0.1</version>
+  <classifier>jar-with-dependencies</classifier>
+</dependency>
+```
 
-<taskdef name="checkdoc" classname="org.dhatim.jtestdoc.tasks.JDocProcess">
-		 <classpath>
-	 	  <pathelement path="yourpath\JTestDoc-0.0.1.jar"/>
-	      <pathelement path="yourpath\javaparser-core-2.1.0.jar"/>
-	      <pathelement path="yourpath\guava-18.0.jar"/>
-	      <pathelement path="yourpath\gson-2.3.1.jar"/>
-	    </classpath>
-</taskdef>	
+Now add this to your ant build task. Note that this will open all subfolders.
 
+```xml
 <target name="main">
 	<checkdoc destination="documentation.html" blocking="false">
-			<fileset dir="src/test/">
-					    <include name="**/*.java" />
-			</fileset>
+			<fileset dir="src/tests/" includes="*.java"></fileset>
 	</checkdoc>
 </target>
+	
+<taskdef name="checkdoc" classname="org.dhatim.jtestdoc.tasks.JDocProcess" classpath="yourpath\JTestDoc-0.0.1-SNAPSHOT-jar-with-dependencies.jar"/>
+```
 
 
 Changing to blocking value to true will result in throwing BuildException instead of Warnings while building your app, and of destination will change the destination of the documentation to be generated.
