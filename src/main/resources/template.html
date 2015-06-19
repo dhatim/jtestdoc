@@ -8,13 +8,27 @@
 	<style type="text/css">
 		body
 		{
+			width: 100%;
+			padding:0;
+		}
+		#content
+		{
 			margin-left:10%;
 			width:80%;
 		}
 		#header
 		{
-			color: #2c3e50;
-			height:10%;
+		    height:50px;
+		    background:#2c3e50;
+		    margin:0px auto;
+		    float: left;
+		    width:100%;
+		    margin-bottom: 5px;
+		}
+		#header p
+		{
+			color:#fbfcfc;
+			text-align: center;
 		}
 
 		.h2
@@ -27,12 +41,32 @@
 		{
 		  background-color: #ecf0f1;
 		}
+		.method:nth-child(odd)
+		{
+		   background-color: #ecf0f1;
+		}
 		blockquote
 		{
 		  font-style: normal;
 		  margin-left: 32px;
 		  border-left: 4px solid #CCC;
 		  padding-left: 8px;
+		}
+		ul
+		{
+			list-style-type: none;
+			width:120;
+			overflow: auto;
+			background-color: #fbfcfc;
+			border: 1px black solid;
+		}
+		.file h1
+		{
+			border-bottom: 5px solid #2c3e50;
+		}
+		.method
+		{
+			overflow: auto;
 		}
 		</style>
 </head>
@@ -41,12 +75,12 @@
 	<p>JTestDoc</p>
 </div>
 
-<div id="content"></div>
+<div id="content">
  <script>
        var content = '';
        var mcontent ='';
-       var indexFiles = '';
-       var indexMethods = '';
+       var indexFiles = '<ul>';
+       var indexMethods = '<ul>';
         for(var i= 0; i < doc.length; i++)
 		{
 			mcontent = '';
@@ -56,13 +90,13 @@
 			for(var d= 0; d < doc[i].methods.length; d++)
 			{
 				indexMethods = indexMethods + "<li><a href=\"#"+doc[i].methods[d].name+"\">"+doc[i].methods[d].name+"</a></li>";
-				mcontent = mcontent + "<div class=\"method\" id=\'"+doc[i].methods[d].name+"\''><h2>"+ doc[i].methods[d].name +"</h2><hr>"; 
+				mcontent = mcontent + "<div class=\"method\" id=\'"+doc[i].methods[d].name+"\''><h2>"+ doc[i].methods[d].name +"</h2>"; 
 				mcontent = mcontent + "Test description : <blockquote>"+marked(parseText(doc[i].methods[d].description))+"</blockquote>";
 			    mcontent = mcontent + "Initial State : <blockquote>"+marked(parseText(doc[i].methods[d].initialState))+"</blockquote>";
 			    mcontent = mcontent + "<table><tr><th>Step</th><th>Expected Result</th></tr>";
 			    for(var f= 0; f < doc[i].methods[d].steps.length; f++)
 				{
-					mcontent = mcontent + "<tr><td>"+(f+1)+"."+doc[i].methods[d].steps[f].step+"</td>";
+					mcontent = mcontent + "<div class='method'><tr><td>"+(f+1)+"."+doc[i].methods[d].steps[f].step+"</td>";
 	 				if(doc[i].methods[d].steps[f].expectedResult.length>0)
 	 					mcontent = mcontent + "<td>"+doc[i].methods[d].steps[f].expectedResult[0]+"</td>";
 	 				mcontent = mcontent + "</tr>";
@@ -70,17 +104,18 @@
   					{
   					 	mcontent = mcontent + "<tr><td></td><td>"+doc[i].methods[d].steps[f].expectedResult[c]+"</td></tr>"; 
   					}
- 
+ 					mcontent +="</div>";
 				}
 			    mcontent = mcontent + "</table></div>"; 
 
 			}
 			mcontent = "</ul>" + mcontent +"</div>";
-			content = content + indexMethods + mcontent;
+			content = content + indexMethods + "</ul>" + mcontent;
 		}
-		content = indexFiles + content;
+		content = indexFiles +"</ul>"+ content;
 		document.getElementById("content").innerHTML = content;
 
         </script>
+</div>
 </body>
 </html>
