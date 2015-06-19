@@ -1,6 +1,6 @@
 architect:
   - msuret
-  - nlanglois
+  - EtoileFilante
 decrypt:
   settings.xml: "repo/settings.xml.asc"
   pubring.gpg: "repo/pubring.gpg.asc"
@@ -8,7 +8,7 @@ decrypt:
 release:
   commanders:
     - msuret
-    - nlanglois
+    - EtoileFilante
   script: |
     mvn versions:set "-DnewVersion=${tag}"
     git commit -am "${tag}"
