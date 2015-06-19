@@ -37,9 +37,12 @@ public class JTDAG // Java Test Documentation Automatically Generated
 				Scanner markedScanner = new Scanner(JTDAG.class
 						.getClassLoader().getResourceAsStream("marked.js"),
 						"UTF-8");) {
-			TEMPLATE = templateScanner.next();
-			JSPARSER = parserScanner.next();
-			MK = markedScanner.next();
+			while(templateScanner.hasNextLine())
+				TEMPLATE += templateScanner.nextLine()+"\n";
+			while(parserScanner.hasNextLine())
+				JSPARSER += parserScanner.nextLine()+"\n";
+			while(markedScanner.hasNextLine())
+				MK += markedScanner.nextLine()+"\n";
 		}
 
 	}
