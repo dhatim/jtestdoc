@@ -64,10 +64,9 @@ public class JDocProcess extends Task {
                 files.add(d);
             }
 
-            JTDAG doc = new JTDAG(files, destination); //Create a JTestDocumentation with the files
-            doc.export(); //Export it
-
         }
+        JTDAG doc = new JTDAG(files, destination); //Create a JTestDocumentation with the files
+        doc.export(); //Export it
     }
 
     public void addFileSet(FileSet f) {
