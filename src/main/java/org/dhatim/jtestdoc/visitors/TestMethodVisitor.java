@@ -54,7 +54,7 @@ public class TestMethodVisitor extends VoidVisitorAdapter<MethodSet> {
                         }
                     }
                     if (!found) {
-                        methodSet.getErrorManager().add(new BuildException("You have undocumented asserts line " + expressionStmt.getBeginLine()));
+                        methodSet.getErrorManager().add(new BuildException("You have an undocumented asserts line " + expressionStmt.getBeginLine()));
                     }
                 }
             } else {
