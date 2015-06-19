@@ -11,7 +11,10 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 public class TestMethodVisitor extends VoidVisitorAdapter<MethodSet> {
 
     private MethodSet methodSet;
-
+	/**
+	 * This method checks if a line has a call to another method
+	 * @param node
+	 */
     private void recursiveSearch(ExpressionStmt node) {
         methodSet.getAllMethods()
                 .stream()
@@ -21,6 +24,9 @@ public class TestMethodVisitor extends VoidVisitorAdapter<MethodSet> {
                 });
     }
 
+    /**
+     * This method tries to find the test's documentation and acts recursively if there are methods calls inside the method
+     */
     @Override
     public void visit(ExpressionStmt expressionStmt, MethodSet methodSet) {
         this.methodSet = methodSet;

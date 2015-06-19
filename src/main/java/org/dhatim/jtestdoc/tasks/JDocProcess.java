@@ -26,7 +26,10 @@ public class JDocProcess extends Task {
     private String destination; //This is the place where the generated documentation will be exported
     private FileSet f = new FileSet();//This is the fileset with the files to be processed
     private boolean blocking;//This defines if the task should throw errors(blocking the task at the first one) or simply generate warnings(and create a doc file even if there are warnings)
-
+    
+    /**
+     * This method execute the task
+     */
     @Override
     public void execute() throws BuildException {
         if (destination == null)//If the destination is null, set it to a default location documentation.html

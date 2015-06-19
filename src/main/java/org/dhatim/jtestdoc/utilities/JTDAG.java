@@ -14,54 +14,63 @@ import java.util.List;
 public class JTDAG // Java Test Documentation Automatically Generated
 {
 
-    //All files that need to be processed
-    List<File> files;
+	// All files that need to be processed
+	List<File> files;
 
-    //Path of the final file
-    String destination;
+	// Path of the final file
+	String destination;
 
-    //Template files
-    private String TEMPLATE = "";
-    private String JSPARSER = "";
-    private String MK = "";
+	// Template files
+	private String TEMPLATE = "";
+	private String JSPARSER = "";
+	private String MK = "";
 
-    public JTDAG(ArrayList<File> files, String destination) {
-        this.files = files;
-        this.destination = destination;
+	public JTDAG(ArrayList<File> files, String destination) {
+		this.files = files;
+		this.destination = destination;
 
-        try (Scanner templateScanner = new Scanner(JTDAG.class.getClassLoader().getResourceAsStream("template.html"), "UTF-8");
-                Scanner parserScanner = new Scanner(JTDAG.class.getClassLoader().getResourceAsStream("jsparser.js.template"), "UTF-8");
-                Scanner markedScanner = new Scanner(JTDAG.class.getClassLoader().getResourceAsStream("marked.js"), "UTF-8");) {
-            TEMPLATE = templateScanner.next();
-            JSPARSER = parserScanner.next();
-            MK = markedScanner.next();
-        }
+		try (Scanner templateScanner = new Scanner(JTDAG.class.getClassLoader()
+				.getResourceAsStream("template.html"), "UTF-8");
+				Scanner parserScanner = new Scanner(JTDAG.class
+						.getClassLoader().getResourceAsStream(
+								"jsparser.js.template"), "UTF-8");
+				Scanner markedScanner = new Scanner(JTDAG.class
+						.getClassLoader().getResourceAsStream("marked.js"),
+						"UTF-8");) {
+			TEMPLATE = templateScanner.next();
+			JSPARSER = parserScanner.next();
+			MK = markedScanner.next();
+		}
 
-    }
+	}
+	
+	/**
+	 * This method exports a documentation file from what was processed
+	 * @throws BuildException
+	 */
+	public void export() throws BuildException {
+		Gson gson = new Gson();
+		String json = "";
 
-    public void export() throws BuildException {
-        Gson gson = new Gson();
-        String json = "";
+		json += gson.toJson(files);
 
-        json += gson.toJson(files);
+		try {
+			try (FileWriter writer = new FileWriter("doc.json")) {
+				writer.write(json);
+			}
+			try (FileWriter writer0 = new FileWriter("doc.js")) {
+				writer0.write("var doc = JSON.parse('" + json + "'" + JSPARSER);
+			}
+			try (FileWriter writer2 = new FileWriter("documentation.html")) {
+				writer2.write(TEMPLATE);
+			}
+			try (FileWriter writer3 = new FileWriter("marked.js")) {
+				writer3.write(MK);
+			}
+		} catch (IOException e) {
+			throw new BuildException(e);
+		}
 
-        try {
-            try (FileWriter writer = new FileWriter("doc.json")) {
-                writer.write(json);
-            }
-            try (FileWriter writer0 = new FileWriter("doc.js")) {
-                writer0.write("var doc = JSON.parse('" + json + "'" + JSPARSER);
-            }
-            try (FileWriter writer2 = new FileWriter("documentation.html")) {
-                writer2.write(TEMPLATE);
-            }
-            try (FileWriter writer3 = new FileWriter("marked.js")) {
-                writer3.write(MK);
-            }
-        } catch (IOException e) {
-            throw new BuildException(e);
-        }
-
-    }
+	}
 
 }

@@ -9,7 +9,10 @@ public class ErrorManager {
     public ErrorManager(boolean blocking) {
         this.blocking = blocking;
     }
-
+    /**
+     * This method throws an exception or a warning with a given BuildException depending on the object's parameter
+     * @param e the exception thrown
+     */
     public void add(BuildException e) {
         if (blocking) {
             throw e;
