@@ -7,3 +7,5 @@ release:
     mvn versions:set "-DnewVersion=${tag}"
     git commit -am "${tag}"
     mvn clean deploy --settings /home/r/settings.xml
+docker:
+  image: "teamed/docker-java-8"
