@@ -27,9 +27,9 @@ public class JTDAG
 	String destination;
 
 	// Template files
-	private String TEMPLATE = "";
-	private String JSPARSER = "";
-	private String MK = "";
+	private String template = "";
+	private String jsparser = "";
+	private String markdown = "";
 
 	/**
 	 * This constructor initializes the templates
@@ -49,11 +49,11 @@ public class JTDAG
 						.getClassLoader().getResourceAsStream("marked.js"),
 						"UTF-8");) {
 			while(templateScanner.hasNextLine())
-				TEMPLATE += templateScanner.nextLine()+"\n";
+				template += templateScanner.nextLine()+"\n";
 			while(parserScanner.hasNextLine())
-				JSPARSER += parserScanner.nextLine()+"\n";
+				jsparser += parserScanner.nextLine()+"\n";
 			while(markedScanner.hasNextLine())
-				MK += markedScanner.nextLine()+"\n";
+				markdown += markedScanner.nextLine()+"\n";
 		}
 
 	}
@@ -73,13 +73,13 @@ public class JTDAG
 				writer.write(json);
 			}
 			try (FileWriter writer0 = new FileWriter("doc.js")) {
-				writer0.write("var doc = JSON.parse('" + json + "'" + JSPARSER);
+				writer0.write("var doc = JSON.parse('" + json + "'" + jsparser);
 			}
 			try (FileWriter writer2 = new FileWriter("documentation.html")) {
-				writer2.write(TEMPLATE);
+				writer2.write(template);
 			}
 			try (FileWriter writer3 = new FileWriter("marked.js")) {
-				writer3.write(MK);
+				writer3.write(markdown);
 			}
 		} catch (IOException e) {
 			throw new BuildException(e);
