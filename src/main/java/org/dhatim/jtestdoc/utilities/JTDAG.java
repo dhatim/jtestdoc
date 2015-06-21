@@ -13,12 +13,13 @@ import com.google.gson.Gson;
 import java.util.List;
 
 /**
- * Java Test Documentation Automatically Generated is in charge of the exportation of the documentation
+ * Java Test Documentation Automatically Generated is in charge of the
+ * exportation of the documentation
+ * 
  * @author Nathanaël Langlois
  * @version 1.0
  */
-public class JTDAG
-{
+public class JTDAG {
 
 	// All files that need to be processed
 	List<File> files;
@@ -33,8 +34,11 @@ public class JTDAG
 
 	/**
 	 * This constructor initializes the templates
-	 * @param files the files that were processed
-	 * @param destination where the user wants to put his documentation
+	 * 
+	 * @param files
+	 *            the files that were processed
+	 * @param destination
+	 *            where the user wants to put his documentation
 	 */
 	public JTDAG(ArrayList<File> files, String destination) {
 		this.files = files;
@@ -48,19 +52,21 @@ public class JTDAG
 				Scanner markedScanner = new Scanner(JTDAG.class
 						.getClassLoader().getResourceAsStream("marked.js"),
 						"UTF-8");) {
-			while(templateScanner.hasNextLine())
-				template += templateScanner.nextLine()+"\n";
-			while(parserScanner.hasNextLine())
-				jsparser += parserScanner.nextLine()+"\n";
-			while(markedScanner.hasNextLine())
-				markdown += markedScanner.nextLine()+"\n";
+			while (templateScanner.hasNextLine())
+				template += templateScanner.nextLine() + "\n";
+			while (parserScanner.hasNextLine())
+				jsparser += parserScanner.nextLine() + "\n";
+			while (markedScanner.hasNextLine())
+				markdown += markedScanner.nextLine() + "\n";
 		}
 
 	}
-	
+
 	/**
 	 * This method exports a documentation file from what was processed
-	 * @throws BuildException if the exportation doesn't work
+	 * 
+	 * @throws BuildException
+	 *             if the exportation doesn't work
 	 */
 	public void export() throws BuildException {
 		Gson gson = new Gson();
