@@ -17,8 +17,8 @@ Now add the following to your ant build task. Note that this process all subfold
 
 ```xml
 <target name="main">
-	<checkdoc destination="documentation.html" blocking="false">
-			<fileset dir="src/tests/" includes="*.java"></fileset>
+	<checkdoc destination="/your/destination/folder" blocking="false">
+			<fileset dir="src/tests/" includes="**/*.java"></fileset>
 	</checkdoc>
 </target>
 	
