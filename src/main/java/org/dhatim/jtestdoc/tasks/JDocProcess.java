@@ -17,9 +17,7 @@ import com.github.javaparser.ParseException;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +25,6 @@ import java.util.Optional;
 /**
  * JDocProcess is an Ant task that processes files to get their documentation and put that documentation into a file.
  * @author Nathanaël Langlois
- * @version 1.0
  */
 public class JDocProcess extends Task {
 
@@ -40,10 +37,6 @@ public class JDocProcess extends Task {
      */
     @Override
     public void execute() throws BuildException {
-        if (destination == null)//If the destination is null, set it to a default location documentation.html
-        {
-            this.destination = "documentation.html";
-        }
         
         //This is the list with all the processed files
         List<File> files = new ArrayList<>();
@@ -76,8 +69,8 @@ public class JDocProcess extends Task {
             }
         }
         
-        JTDAG doc = new JTDAG(files, Paths.get(Optional.ofNullable(destination).orElse(""))); //Create a JTestDocumentation with the files
-        doc.export(); //Export it
+        //Create a JTestDocumentation with the files and export it
+        new JTDAG(files, Paths.get(Optional.ofNullable(destination).orElse(""))).export();
     }
 
     public void addFileSet(FileSet f) {

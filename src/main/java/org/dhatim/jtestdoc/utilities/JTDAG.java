@@ -10,7 +10,6 @@ import org.dhatim.jtestdoc.beans.File;
 import com.google.gson.GsonBuilder;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
@@ -19,7 +18,6 @@ import java.util.List;
  * exportation of the documentation
  *
  * @author Nathanaël Langlois
- * @version 1.0
  */
 public class JTDAG {
 
