@@ -17,8 +17,12 @@ import com.github.javaparser.ParseException;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * JDocProcess is an Ant task that processes files to get their documentation and put that documentation into a file.
@@ -27,9 +31,8 @@ import java.util.List;
  */
 public class JDocProcess extends Task {
 
-    private ArrayList<File> files = new ArrayList<>(); //This is the list with all the processed files
     private String destination; //This is the place where the generated documentation will be exported
-    private FileSet f = new FileSet();//This is the fileset with the files to be processed
+    private FileSet fileSet = new FileSet();//This is the fileset with the files to be processed
     private boolean blocking;//This defines if the task should throw errors(blocking the task at the first one) or simply generate warnings(and create a doc file even if there are warnings)
     
     /**
@@ -41,17 +44,20 @@ public class JDocProcess extends Task {
         {
             this.destination = "documentation.html";
         }
+        
+        //This is the list with all the processed files
+        List<File> files = new ArrayList<>();
 
         //Parsing files
-        for (Resource mfi : f)//Looping through the list of of files
+        for (Resource resource : fileSet)//Looping through the list of of files
         {
             MethodSet methodSet = new MethodSet(blocking);
             List<MethodDeclaration> fileMethods = new ArrayList<>();
 
-            File d = new File();
+            File file = new File();
             CompilationUnit cu = null;
 
-            try (FileInputStream in = new FileInputStream(mfi.toString())) {
+            try (FileInputStream in = new FileInputStream(resource.toString())) {
                 cu = JavaParser.parse(in);
             } catch (IOException | ParseException e) {
                 throw new BuildException(e);
@@ -63,19 +69,19 @@ public class JDocProcess extends Task {
             testTagVisitor.setAllmymethods(fileMethods);
             testTagVisitor.visit(cu, methodSet);
 
-            d.setMethods(testTagVisitor.getMethods());
-            d.setName(mfi.getName());
-            if (!d.getMethods().isEmpty()) {
-                files.add(d);
+            file.setMethods(testTagVisitor.getMethods());
+            file.setName(resource.getName());
+            if (!file.getMethods().isEmpty()) {
+                files.add(file);
             }
-
         }
-        JTDAG doc = new JTDAG(files, destination); //Create a JTestDocumentation with the files
+        
+        JTDAG doc = new JTDAG(files, Paths.get(Optional.ofNullable(destination).orElse(""))); //Create a JTestDocumentation with the files
         doc.export(); //Export it
     }
 
     public void addFileSet(FileSet f) {
-        this.f = f;
+        this.fileSet = f;
     }
 
     public void setBlocking(String s) {

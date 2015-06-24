@@ -3,13 +3,15 @@ package org.dhatim.jtestdoc.utilities;
 import java.io.FileWriter;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 import org.apache.tools.ant.BuildException;
 import org.dhatim.jtestdoc.beans.File;
 
-import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 /**
@@ -25,41 +27,18 @@ public class JTDAG {
     private final List<File> files;
 
     // Path of the destination folder
-    private final String destination;
-
-    // Template files
-    private final String template;
-    private final String jsparser;
-    private final String markdown;
+    private final Path destination;
 
     /**
      * This constructor initializes the templates
      *
      * @param files the files that were processed
-     * @param destination where the user wants to put his documentation
+     * @param destination the folder where the user wants to put his
+     * documentation
      */
-    public JTDAG(ArrayList<File> files, String destination) {
+    public JTDAG(List<File> files, Path destination) {
         this.files = files;
         this.destination = destination;
-
-        try (
-                Scanner templateScanner = new Scanner(
-                        JTDAG.class.getClassLoader().getResourceAsStream("template.html"),
-                        "UTF-8")
-                    .useDelimiter("\\Z");
-                Scanner parserScanner = new Scanner(
-                        JTDAG.class.getClassLoader().getResourceAsStream("jsparser.js.template"),
-                        "UTF-8")
-                    .useDelimiter("\\Z");
-                Scanner markedScanner = new Scanner(
-                        JTDAG.class.getClassLoader().getResourceAsStream("marked.js"),
-                        "UTF-8")
-                    .useDelimiter("\\Z");) {
-            template = templateScanner.next();
-            jsparser = parserScanner.next();
-            markdown = markedScanner.next();          
-        }
-
     }
 
     /**
@@ -68,24 +47,22 @@ public class JTDAG {
      * @throws BuildException if the exportation doesn't work
      */
     public void export() throws BuildException {
-        Gson gson = new Gson();
-        String json = "";
-
-        json += gson.toJson(files);
-
         try {
-            try (FileWriter writer = new FileWriter(new java.io.File(destination, "doc.json"))) {
-                writer.write(json);
+            Files.createDirectories(destination);
+            Files.copy(
+                    this.getClass().getClassLoader().getResourceAsStream("index.html"),
+                    destination.resolve("index.html"), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(
+                    this.getClass().getClassLoader().getResourceAsStream("marked.js"),
+                    destination.resolve("marked.js"), StandardCopyOption.REPLACE_EXISTING);
+
+            try (FileWriter writer = new FileWriter(destination.resolve("doc.json").toFile())) {
+                new GsonBuilder()
+                        .disableHtmlEscaping()
+                        .create()
+                        .toJson(files, writer);
             }
-            try (FileWriter writer0 = new FileWriter(new java.io.File(destination, "doc.js"))) {
-                writer0.write("var doc = JSON.parse('" + json + "'" + jsparser);
-            }
-            try (FileWriter writer2 = new FileWriter(new java.io.File(destination, "documentation.html"))) {
-                writer2.write(template);
-            }
-            try (FileWriter writer3 = new FileWriter(new java.io.File(destination, "marked.js"))) {
-                writer3.write(markdown);
-            }
+
         } catch (IOException e) {
             throw new BuildException(e);
         }
