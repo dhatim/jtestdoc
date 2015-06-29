@@ -65,6 +65,14 @@
             {
                 overflow: auto;
             }
+            .stepsTable td
+            {
+                vertical-align: top;
+            }
+            .stepsTable td p
+            {
+                display: inline
+            }
         </style>
     </head>
     <body>
@@ -78,48 +86,47 @@
                 function onJsonLoad(data) {
                     var doc = JSON.parse(data);
                     var content = '';
-                    var mcontent = '';
                     var indexFiles = '<ul>';
                     var indexMethods = '<ul>';
                     for (var i = 0; i < doc.length; i++)
                     {
-                        mcontent = '';
+                        var mcontent = '';
                         indexFiles += "<li><a href=\"#" + doc[i].name + "\">" + doc[i].name + "</a></li>";
                         content = content + "<div class=\"file\" id=\"" + doc[i].name + "\"><h1>" + doc[i].name + "</h1>";
                         indexMethods = '<ul>';
                         for (var d = 0; d < doc[i].methods.length; d++)
                         {
-                            indexMethods = indexMethods + "<li><a href=\"#" + doc[i].methods[d].name + "\">" + doc[i].methods[d].name + "</a></li>";
-                            mcontent = mcontent + "<div class=\"method\" id=\'" + doc[i].methods[d].name + "\''><h2>" + doc[i].methods[d].name + "</h2>";
-                            mcontent = mcontent + "Test description : <blockquote>" + marked(doc[i].methods[d].description) + "</blockquote>";
-                            mcontent = mcontent + "Initial State : <blockquote>" + marked(doc[i].methods[d].initialState) + "</blockquote>";
-                            mcontent = mcontent + "<table><tr><th>Step</th><th>Expected Result</th></tr>";
+                            indexMethods += "<li><a href=\"#" + doc[i].methods[d].name + "\">" + doc[i].methods[d].name + "</a></li>";
+                            mcontent += "<div class=\"method\" id=\'" + doc[i].methods[d].name + "\''><h2>" + doc[i].methods[d].name + "</h2>"
+                                    + "Test description : <blockquote>" + marked(doc[i].methods[d].description) + "</blockquote>"
+                                    + "Initial State : <blockquote>" + marked(doc[i].methods[d].initialState) + "</blockquote>"
+                                    + "<table class=\"stepsTable\"><tr><th>Step</th><th>Expected Results</th></tr>";
                             for (var f = 0; f < doc[i].methods[d].steps.length; f++)
                             {
-                                mcontent = mcontent + "<div class='method'><tr><td>" + (f + 1) + "." + doc[i].methods[d].steps[f].step + "</td>";
+                                mcontent += "<tr><td rowspan=\""+Math.max(1, doc[i].methods[d].steps[f].expectedResult.length)+"\">"
+                                        + (f + 1) + ". " + marked(doc[i].methods[d].steps[f].step) + "</td>";
                                 if (doc[i].methods[d].steps[f].expectedResult.length > 0)
-                                    mcontent = mcontent + "<td>" + doc[i].methods[d].steps[f].expectedResult[0] + "</td>";
-                                mcontent = mcontent + "</tr>";
+                                    mcontent += "<td>" + marked(doc[i].methods[d].steps[f].expectedResult[0]) + "</td>";
+                                mcontent += "</tr>";
                                 for (var c = 1; c < doc[i].methods[d].steps[f].expectedResult.length; c++)
                                 {
-                                    mcontent = mcontent + "<tr><td></td><td>" + doc[i].methods[d].steps[f].expectedResult[c] + "</td></tr>";
+                                    mcontent += "<tr><td>" + marked(doc[i].methods[d].steps[f].expectedResult[c]) + "</td></tr>";
                                 }
-                                mcontent += "</div>";
                             }
-                            mcontent = mcontent + "</table></div>";
+                            mcontent += "</table></div>";
 
                         }
                         mcontent = "</ul>" + mcontent + "</div>";
-                        content = content + indexMethods + "</ul>" + mcontent;
+                        content += indexMethods + "</ul>" + mcontent;
                     }
                     content = indexFiles + "</ul>" + content;
                     document.getElementById("content").innerHTML = content;
                 }
-                
+
                 var request = new XMLHttpRequest();
                 request.overrideMimeType("application/json");
                 request.open('GET', 'doc.json', true);
-                request.onreadystatechange = function(){
+                request.onreadystatechange = function () {
                     if (request.readyState === 4 && request.status === 200) {
                         onJsonLoad(request.responseText);
                     }
