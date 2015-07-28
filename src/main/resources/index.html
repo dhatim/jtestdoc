@@ -91,8 +91,8 @@
                     for (var i = 0; i < doc.length; i++)
                     {
                         var mcontent = '';
-                        indexFiles += "<li><a href=\"#" + doc[i].name + "\">" + doc[i].name + "</a></li>";
-                        content = content + "<div class=\"file\" id=\"" + doc[i].name + "\"><h1>" + doc[i].name + "</h1>";
+                        indexFiles += "<li><a href=\"#" + doc[i].name.replace(/\\/g, '/') + "\">" + doc[i].name + "</a></li>";
+                        content = content + "<div class=\"file\" id=\"" + doc[i].name.replace(/\\/g, '/') + "\"><h1>" + doc[i].name + "</h1>";
                         indexMethods = '<ul>';
                         for (var d = 0; d < doc[i].methods.length; d++)
                         {

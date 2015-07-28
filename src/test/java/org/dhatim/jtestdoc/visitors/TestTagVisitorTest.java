@@ -8,7 +8,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.tools.ant.BuildException;
 import org.dhatim.jtestdoc.utilities.MethodSet;
-import org.dhatim.jtestdoc.visitors.TestTagVisitor;
 import org.junit.*;
 
 import com.github.javaparser.ast.body.MethodDeclaration;
@@ -40,17 +39,17 @@ public class TestTagVisitorTest
 		 
 		//Step: Mock the process method so it isn't actually called
 		final AtomicBoolean processExecuted = new AtomicBoolean(false);
-		TestTagVisitor visitor = new TestTagVisitor(){
+		TestTagVisitor visitor = new TestTagVisitor(m){
 			public void process(MethodDeclaration methodDeclaration,Optional<String> markerDescription){processExecuted.set(true);}
 		};
 		
 		//Step: Check that a method without the annotation @Test are not processed
-		visitor.visit(new MarkerAnnotationExpr(new NameExpr("Override")),m);
+		visitor.visit(new MarkerAnnotationExpr(new NameExpr("Override")), null);
 		//The method shouldn't be processed 
 		Assert.assertFalse(processExecuted.get());
 		
 		//Step: Check that a method with the annotation @Test is processed
-		visitor.visit(new MarkerAnnotationExpr(new NameExpr("Test")),m);
+		visitor.visit(new MarkerAnnotationExpr(new NameExpr("Test")), null);
 		//The method should be processed
 		Assert.assertTrue(processExecuted.get());
 	}
@@ -63,7 +62,7 @@ public class TestTagVisitorTest
 	{
 		//We have the same methodset as before
 		
-		TestTagVisitor visitor = new TestTagVisitor();
+		TestTagVisitor visitor = new TestTagVisitor(new MethodSet(true));
 		
 		//Step: Create a methodDeclaration without an initial state
 		MethodDeclaration method = new MethodDeclaration(ModifierSet.PUBLIC,new VoidType(),"wala");

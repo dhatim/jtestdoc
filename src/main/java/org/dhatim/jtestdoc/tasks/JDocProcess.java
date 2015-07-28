@@ -37,6 +37,7 @@ public class JDocProcess extends Task {
      */
     @Override
     public void execute() throws BuildException {
+        try{
         
         //This is the list with all the processed files
         List<File> files = new ArrayList<>();
@@ -57,10 +58,10 @@ public class JDocProcess extends Task {
             }
 
             new MethodVisitor().visit(cu, fileMethods);
-
-            TestTagVisitor testTagVisitor = new TestTagVisitor();
-            testTagVisitor.setAllmymethods(fileMethods);
-            testTagVisitor.visit(cu, methodSet);
+            methodSet.setAllMethods(fileMethods);
+            
+            TestTagVisitor testTagVisitor = new TestTagVisitor(methodSet);
+            testTagVisitor.visit(cu, null);
 
             file.setMethods(testTagVisitor.getMethods());
             file.setName(resource.getName());
@@ -71,6 +72,10 @@ public class JDocProcess extends Task {
         
         //Create a JTestDocumentation with the files and export it
         new JTDAG(files, Paths.get(Optional.ofNullable(destination).orElse(""))).export();
+        } catch(Exception e){
+            e.printStackTrace();
+            throw new BuildException(e);
+        }
     }
 
     public void addFileSet(FileSet f) {
