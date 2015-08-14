@@ -8,7 +8,7 @@ To add JTestDoc to your project, you can add the jar to your build path or if yo
 <dependency>
   <groupId>JTestDoc</groupId>
   <artifactId>JTestDoc</artifactId>
-  <version>1.2</version>
+  <version>1.3</version>
   <classifier>jar-with-dependencies</classifier>
 </dependency>
 ```
